@@ -50,6 +50,24 @@ export default [
     {
         name: (
             <FormattedMessage
+                defaultMessage="ChatGPT"
+                description="Name for the 'ChatGPT' extension"
+                id="gui.extension.chatgpt.name"
+            />
+        ),
+        extensionId: 'chatgpt',
+        description: (
+            <FormattedMessage
+                defaultMessage="ChatGPT with Scratch 3.0"
+                description="Description for the 'ChatGPT' extension"
+                id="gui.extension.chatgpt.description"
+            />
+        ),
+        featured: true
+    },
+    {
+        name: (
+            <FormattedMessage
                 defaultMessage="Music"
                 description="Name for the 'Music' extension"
                 id="gui.extension.music.name"
