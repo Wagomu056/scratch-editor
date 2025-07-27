@@ -115,6 +115,11 @@ class Scratch3ChatGPT {
                     text: 'ChatGPTのレスポンス',
                 },
                 {
+                    opcode: 'clearResponseText',
+                    blockType: BlockType.COMMAND,
+                    text: 'ChatGPTのレスポンスをクリアする',
+                },
+                {
                   opcode: 'now',
                   text: 'now',
                   blockType: BlockType.REPORTER,
@@ -158,10 +163,9 @@ class Scratch3ChatGPT {
               {
                 role: "system",
                 content:
-                  `あなたはユーザーの日本語の指示を「action（動作）」と「target（対象）」のリストに分解するツールです。\n` +
-                  `指示は猫オブジェクトに適用されます。\n` +
+                  `あなたは日本語の指示を猫オブジェクトへ適用するため、指示を「action（動作）」と「target（対象）」のリストに分解します。\n` +
+                  `**[必須]**猫オブジェクトが対象に動作するには、**必ず**"行く"アクションで各対象まで移動してからにしてください。\n` +
                   `猫オブジェクトは最初、スタート地点にいます。\n` +
-                  `猫オブジェクトが対象に動作するには、まず"行く"アクションで対象に移動する必要があります。\n` +
                   `使用可能な動作: ["持つ", "行く", "食べる"]\n` +
                   `使用可能な対象: ["りんご", "スタート地点", "みかん", "バナナ"]\n` +
                   `指示を理解して、processActionSequence関数に適した形式で返してください。`,
@@ -181,7 +185,7 @@ class Scratch3ChatGPT {
             const args = JSON.parse(toolCall.function.arguments);
             //console.log("💡 分解されたアクション一覧:");
             for (const step of args.actions) {
-              return_value += `${step.action}:${step.target},`;
+              return_value += `${step.action},${step.target},`;
             }
             if (return_value.endsWith(',')) {
               return_value = return_value.slice(0, -1); // 最後のカンマを削除
@@ -199,14 +203,14 @@ class Scratch3ChatGPT {
             instructions:
             'あなたはscratchに組み込まれている猫のキャラクターです。入力される指示を実行する前と実行した後のメッセージを作成してください。\n' +
             '# 例\n' +
-            '指示: りんごを食べてからみかんを持って戻ってきて\n' +
-            '実行前メッセージ: りんごを食べてからみかんを持って戻ってくるよ！\n' +
-            '実行後メッセージ: りんごを食べてからみかんを持って戻ってきたよ！\n' +
+            '## 指示\nりんごを食べてからみかんを持って戻ってきて\n' +
+            '## 実行前メッセージ\nりんごを食べてからみかんを持って戻るよ！\n' +
+            '## 実行後メッセージ\nりんごを食べてからみかんを持って戻ったよ！\n' +
             '# フォーマット\n' +
-            '{実行前メッセージ}:{実行後メッセージ}\n',
+            '{実行前メッセージ},{実行後メッセージ}\n',
             input: this.inputText,
           });
-          return_value = response.output_text + '+' + return_value;
+          return_value = response.output_text + ',' + return_value;
         }
 
         this.responseText = return_value;
@@ -214,6 +218,10 @@ class Scratch3ChatGPT {
 
     getResponseText() {
       return this.responseText;
+    }
+
+    clearResponseText() {
+      this.responseText = "";
     }
 
     now () {
