@@ -149,6 +149,7 @@ class Scratch3ChatGPT {
 
     async requestChatGPTWithTool(args) {
         this.inputText = Cast.toString(args.TEXT);
+        console.log(this.inputText);
 
         // 最終結果
         var return_value = "";
@@ -212,6 +213,7 @@ class Scratch3ChatGPT {
         }
 
         this.responseText = return_value;
+        console.log(this.responseText);
     }
 
     getResponseText() {
