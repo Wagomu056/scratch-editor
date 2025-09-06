@@ -48,21 +48,9 @@ import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
 export default [
     {
-        name: (
-            <FormattedMessage
-                defaultMessage="ChatGPT"
-                description="Name for the 'ChatGPT' extension"
-                id="gui.extension.chatgpt.name"
-            />
-        ),
+        name: "ChatGPT",
         extensionId: 'chatgpt',
-        description: (
-            <FormattedMessage
-                defaultMessage="ChatGPT with Scratch 3.0"
-                description="Description for the 'ChatGPT' extension"
-                id="gui.extension.chatgpt.description"
-            />
-        ),
+        description: "ChatGPT",
         featured: true
     },
     {
