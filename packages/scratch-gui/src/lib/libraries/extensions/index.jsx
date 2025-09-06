@@ -54,6 +54,12 @@ export default [
         featured: true
     },
     {
+        name: "Speech2Scratch",
+        extensionId: 'speech2scratch',
+        description: "Speech2Scratch",
+        featured: true
+    },
+    {
         name: (
             <FormattedMessage
                 defaultMessage="Music"
