@@ -28,6 +28,7 @@ class Scratch3ChatGPT {
         this.openAI = null;
         this.inputText = "";
         this.responseText = "";
+        this.conversationHistory = [];
     }
 
     getInfo () {
@@ -106,6 +107,11 @@ class Scratch3ChatGPT {
                             defaultValue: 'あなたはScratchに組み込まれている猫のキャラクターです。'
                         }
                     }
+                },
+                {
+                    opcode: 'clearConversationHistory',
+                    blockType: BlockType.COMMAND,
+                    text: '会話履歴をクリアする',
                 }
             ]
         };
@@ -131,6 +137,9 @@ class Scratch3ChatGPT {
 
     setPrompt(args) {
       this.prompt = Cast.toString(args.TEXT);
+      this.conversationHistory = [
+        { role: "system", content: this.prompt }
+      ];
     }
 
     async requestChatGPT(args) {
@@ -156,22 +165,26 @@ class Scratch3ChatGPT {
       this.inputText = Cast.toString(args.TEXT);
       console.log(this.inputText);
 
+      // 会話履歴がなければ初期化
+      if (this.conversationHistory.length === 0) {
+        this.conversationHistory = [
+          { role: "system", content: this.prompt }
+        ];
+      }
+
+      // ユーザーメッセージを会話履歴に追加
+      this.conversationHistory.push({ 
+        role: "user", 
+        content: this.inputText 
+      });
+
       // 最終結果
       var return_value = "";
 
       // ユーザーの指示を分解
       const response = await this.openAI.chat.completions.create({
         model: "gpt-4-0613", // GPT-4のfunction calling対応版
-        messages: [
-      {
-            role: "system",
-            content: this.prompt,
-          },
-          {
-            role: "user",
-            content: this.inputText
-          },
-        ],
+        messages: this.conversationHistory,
         tools: this.functions.map((fn) => ({ type: "function", function: fn })),
         tool_choice: { type: "function", function: { name: "processActionSequence" } },
       });
@@ -182,12 +195,17 @@ class Scratch3ChatGPT {
         console.log(toolCall);
         const args = JSON.parse(toolCall.function.arguments);
         //console.log("💡 分解されたアクション一覧:");
+        var total_message = "";
         for (const step of args.actions) {
           return_value += `${step.arg1},${step.arg2},`;
+          total_message += step.arg1;
         }
-        if (return_value.endsWith(',')) {
-          return_value = return_value.slice(0, -1); // 最後のカンマを削除
-        }
+
+        // アシスタントの返答を会話履歴に追加
+        this.conversationHistory.push({
+          role: "assistant",
+          content: total_message
+        });
       } else {
         return_value = "Function calling failed";
         console.error("❌ Function calling に失敗しました。");
@@ -203,6 +221,15 @@ class Scratch3ChatGPT {
 
     clearResponseText() {
       this.responseText = "";
+    }
+
+    clearConversationHistory() {
+      this.conversationHistory = [];
+      if (this.prompt) {
+        this.conversationHistory = [
+          { role: "system", content: this.prompt }
+        ];
+      }
     }
 }
 module.exports = Scratch3ChatGPT;
