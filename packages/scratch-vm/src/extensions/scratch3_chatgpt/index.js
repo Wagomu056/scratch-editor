@@ -184,7 +184,7 @@ class Scratch3ChatGPT {
       // ユーザーの指示を分解
         //model: "gpt-4-0613", // GPT-4のfunction calling対応版
       const response = await this.openAI.chat.completions.create({
-        model: "gpt-4.1-nano", // GPT-4のfunction calling対応版
+        model: "gpt-4.1-nano-2025-04-14", // GPT-4のfunction calling対応版
         messages: this.conversationHistory,
         tools: this.functions.map((fn) => ({ type: "function", function: fn })),
         tool_choice: { type: "function", function: { name: "processActionSequence" } },
