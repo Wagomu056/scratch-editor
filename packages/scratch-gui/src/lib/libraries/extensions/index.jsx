@@ -51,6 +51,12 @@ import faceSensingInsetIconURL from './faceSensing/faceSensing-small.svg';
 
 export default [
     {
+        name: "Ollama",
+        extensionId: 'ollama',
+        description: "Ollama",
+        featured: true
+    },
+    {
         name: "Speech2Scratch",
         extensionId: 'speech2scratch',
         description: "Speech2Scratch",
