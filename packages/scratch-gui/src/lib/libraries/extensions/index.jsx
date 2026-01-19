@@ -49,10 +49,22 @@ import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 import faceSensingIconURL from './faceSensing/faceSensing.png';
 import faceSensingInsetIconURL from './faceSensing/faceSensing-small.svg';
 
+import speech2TextIconURL from './speech2text/speech2text.png';
+
+import ollamaIconURL from './ollama/ollama.png';
+
 export default [
+    {
+        name: "Ollama",
+        extensionId: 'ollama',
+        iconURL: ollamaIconURL,
+        description: "Ollama",
+        featured: true
+    },
     {
         name: "Speech2Scratch",
         extensionId: 'speech2scratch',
+        iconURL: speech2TextIconURL,
         description: "Speech2Scratch",
         featured: true
     },

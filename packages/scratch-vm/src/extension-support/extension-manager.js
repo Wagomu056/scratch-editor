@@ -13,6 +13,7 @@ const builtinExtensions = {
     // but serves as a reference for loading core blocks as extensions.
     coreExample: () => require('../blocks/scratch3_core_example'),
     // These are the non-core built-in extensions.
+    ollama: () => require('../extensions/scratch3_ollama'),
     speech2scratch: () => require('../extensions/scratch3_speech2scratch'),
     pen: () => require('../extensions/scratch3_pen'),
     wedo2: () => require('../extensions/scratch3_wedo2'),
