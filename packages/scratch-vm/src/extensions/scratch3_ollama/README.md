@@ -21,6 +21,32 @@ Ollamaをインストール後、任意のモデルをダウンロードしま�
 - `gemma3:1b`
 - `gemma3:4b`
 
+## 起動準備
+
+### MacOS
+
+GitHub Pages など異なるオリジンからの Ollama アクセスを許可するため、OLLAMA_ORIGINS 環境変数を設定して Ollama サーバーを起動します。
+
+#### 1. 起動中のOllamaを終了
+
+Ollamaがすでに起動している場合は、終了してください。
+
+アプリ終了後、右上のOllamaアイコンもクリックし「Quit Ollama」を選択します。
+
+![Ollama Quit](./ollama_quit.png)
+
+#### 2. OLLAMA_ORIGINS環境変数を設定してOllamaを起動
+
+ターミナルを開き、以下のコマンドを実行してOllamaを再起動します。
+
+```bash
+OLLAMA_ORIGINS=* /Applications/Ollama.app/Contents/Resources/ollama serve
+```
+
+> [!NOTE]
+> `OLLAMA_ORIGINS=*` は、すべてのオリジン（どのドメインからでも）からの Ollama サーバーへのリクエストを許可するという意味です。
+
+
 ## 使い方
 
 ### ブロック一覧
@@ -66,10 +92,7 @@ LLMからの返答を取得します。`プロンプトを送信` ブロック�
 
 ## プログラミング例
 
-### 例画像
-
 ![Ollama Extension Example](./example.png)
-
 
 ## トラブルシューティング
 
